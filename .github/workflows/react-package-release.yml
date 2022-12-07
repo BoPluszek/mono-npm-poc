@@ -1,0 +1,63 @@
+name: react-package-release
+
+# https://michaelzanggl.com/articles/github-actions-cd-setup/
+on:
+  # workflow_dispatch:
+  release:
+    types: [published]
+    # it not possible to filter by tags. We need to do something else
+    # https://github.com/orgs/community/discussions/26603
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "${{ toJson(github.event) }}"
+  
+      - name: Split tagname into module and version
+        run: |
+          TAG=${{ github.event.release.tag_name }}
+          MODULE=${TAG%%/*}
+          VERSION=${TAG##*/v}
+          echo module: $MODULE
+          echo version: $VERSION
+          echo MODULE=$MODULE >> $GITHUB_ENV
+          echo VERSION=$VERSION >> $GITHUB_ENV
+
+      - uses: actions/checkout@v3
+        with:
+        # "ref" specifies the branch to check out.
+        # "github.event.release.target_commitish" is a global variable and specifies the branch the release targeted
+          ref: ${{ github.event.release.target_commitish }}
+
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: "yarn"
+          cache-dependency-path: "al-react-components/yarn.lock"
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@205093'
+          always-auth: true
+
+      - run: git config --global user.name "GitHub CD bot"
+      - run: git config --global user.email "github-cd-bot@al-bank.io"
+
+      - name: Install and build
+        run: |
+          cd al-react-components
+          yarn
+          yarn workspaces run build
+          cd ${{ env.MODULE }}
+          #yarn config set version-tag-prefix "${{ env.MODULE }}/v"
+          yarn config set version-git-message "release: react component ${{ env.MODULE }} v%s"
+          yarn version --new-version ${{ env.VERSION }}
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: git push
+        env:
+          # The secret is passed automatically. Nothing to configure.
+          github-token: ${{ secrets.GITHUB_TOKEN }}
