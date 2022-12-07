@@ -1,0 +1,13 @@
+{
+  "name": "@al-bank/al-spinner",
+  "version": "0.0.1",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rimraf dist && rollup -c ../rollup.config.mjs --bundleConfigAsCjs"
+  },
+  "peerDependencies": {
+    "react": "^18.*",
+    "react-dom": "^18.*"
+  }
+}
