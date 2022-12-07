@@ -10,3 +10,6 @@ Husk at sætte repository i package.json, så der publishes til rigtigt package 
 release?
 https://michaelzanggl.com/articles/github-actions-cd-setup/
 https://www.atkinsondev.com/post/github-actions-releasing-different-tags/
+
+.
+.

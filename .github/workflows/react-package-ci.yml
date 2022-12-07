@@ -2,11 +2,9 @@ name: react-package-ci
 
 on:
   # pull_request:
-  #   branches: ["al-react-components/al-spinner"]
   #   paths:
-  #     - "**/web/**"
-  #     - "**/react-package-ci.yml"
-  push: # TODO: Remove when done testing #
+  #     - "al-react-components/*"
+  push: 
     paths:
       - "al-react-components/*"
 
