@@ -9,7 +9,9 @@ on:
     # https://github.com/orgs/community/discussions/26603
 
 jobs:
-  build:
+  buildrelease:
+    name: Build release
+    if: contains(fromJson('["refs/tags/al-spinner", "refs/tags/al-button"]'), github.ref)
     runs-on: ubuntu-latest
 
     steps:
