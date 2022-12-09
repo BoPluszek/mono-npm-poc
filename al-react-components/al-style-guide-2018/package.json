@@ -1,0 +1,11 @@
+{
+  "name": "@205093/al-style-guide-2018",
+  "version": "0.0.2",
+  "sass": "scss/index.scss",
+  "scripts": {
+    "build": "echo No build needed"
+  },
+  "publishConfig": {
+    "@al-bank:registry": "https://npm.pkg.github.com"
+  }
+}

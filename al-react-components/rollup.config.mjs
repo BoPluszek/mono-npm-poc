@@ -5,6 +5,7 @@ import typescript from "@rollup/plugin-typescript";
 import external from "rollup-plugin-peer-deps-external";
 import postcss from "rollup-plugin-postcss";
 import dts from "rollup-plugin-dts";
+import svg from "rollup-plugin-svg";
 
 const packageJson = require(process.cwd() + "/package.json");
 export default [
@@ -28,6 +29,7 @@ export default [
       external(),
       resolve(),
       commonjs(),
+      svg(),
       typescript({ tsconfig: __dirname + "/tsconfig.json" }),
       postcss()
       // terser()
@@ -36,7 +38,7 @@ export default [
   {
     input: process.cwd() + "/dist/esm/index.d.ts",
     output: [{ file: "dist/index.d.ts", format: "esm" }],
-    external: [/\.css$/],
+    external: [/\.scss$/],
     plugins: [dts.default()]
   }
 ];

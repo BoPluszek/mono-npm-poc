@@ -4,11 +4,16 @@ on:
   push:
     paths:
       - "al-react-components/*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
 
@@ -24,3 +29,40 @@ jobs:
           cd al-react-components
           yarn
           yarn workspaces run build
+
+      - name: List of the GitHub Actions environment variables on Windows
+        run: env
+
+      - name: Cache files for ghpages
+        uses: actions/cache@v3
+        with:
+          path: al-react-components/
+          key: al-react-components-ghpages-${{github.run_id}}
+
+
+  ghpages:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore cached files for ghpages
+        uses: actions/cache@v3
+        with:
+          path: al-react-components/
+          key: al-react-components-ghpages-${{github.run_id}}
+
+      - name: Build documentation
+        run: |
+          cd al-react-components
+          yarn run build-storybook
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: 'al-react-components/storybook-static'
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1

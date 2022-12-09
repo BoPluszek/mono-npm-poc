@@ -1,0 +1,11 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" xmlnsA="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="29px" height="29px" enable-background="new 0 0 29 29" xmlSpace="preserve">
+    <defs></defs>
+    <path fill="#FFFFFF" d="M29.022,26.086c0,1.613-1.32,2.933-2.931,2.933H2.932C1.32,29.019,0,27.699,0,26.086V2.931
+	C0,1.319,1.32,0,2.932,0h23.16c1.61,0,2.931,1.319,2.931,2.931V26.086z" />
+
+    <path fill="#AF1E2D" d="M19.534,3.99v14.86h9.488V2.931c0-1.612-1.32-2.931-2.931-2.931H2.932C1.32,0,0,1.319,0,2.931v12.936
+	L11.876,3.99H19.534z" />
+
+    <path fill="#AF1E2D" d="M14.133,24.246l0-14.862L0,23.47v2.616c0,1.613,1.32,2.933,2.932,2.933h23.16
+	c1.61,0,2.931-1.319,2.931-2.933v-1.838L14.133,24.246z" />
+</svg>

@@ -1,10 +1,11 @@
 {
-  "name": "@205093/al-button",
+  "name": "@205093/al-version-footer",
   "version": "0.0.2",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rimraf dist && rollup -c ../rollup.config.mjs --bundleConfigAsCjs"
+    "build": "rimraf dist && rollup -c ../rollup.config.mjs --bundleConfigAsCjs",
+    "storybook": "start-storybook -p 6006 -c ../.storybook"
   },
   "publishConfig": {
     "@al-bank:registry": "https://npm.pkg.github.com"

@@ -1,17 +1,17 @@
 {
-  "name": "@205093/al-spinner",
+  "name": "@205093/al-use-query-state",
   "version": "0.0.2",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rimraf dist && rollup -c ../rollup.config.mjs --bundleConfigAsCjs",
-    "storybook": "start-storybook -p 6006 -c ../.storybook"
+    "build": "rimraf dist && rollup -c ../rollup.config.mjs --bundleConfigAsCjs"
   },
   "publishConfig": {
     "@al-bank:registry": "https://npm.pkg.github.com"
   },
   "peerDependencies": {
     "react": "^18.*",
-    "react-dom": "^18.*"
+    "react-dom": "^18.*",
+    "react-router-dom": "6.4.*"
   }
 }

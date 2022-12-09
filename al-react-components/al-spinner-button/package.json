@@ -1,5 +1,5 @@
 {
-  "name": "@205093/al-spinner",
+  "name": "@205093/al-spinner-button",
   "version": "0.0.2",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",

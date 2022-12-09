@@ -1,0 +1,21 @@
+{
+  "name": "@205093/al-store",
+  "version": "0.0.2",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rimraf dist && rollup -c ../rollup.config.mjs --bundleConfigAsCjs"
+  },
+  "publishConfig": {
+    "@al-bank:registry": "https://npm.pkg.github.com"
+  },
+  "peerDependencies": {
+    "react": "^18.*",
+    "react-dom": "^18.*",
+    "mobx": "^6.7.*",
+    "mobx-react": "^7.6.*",
+    "@azure/msal-browser": "^2.32.*",
+    "@azure/msal-react": "^1.5.*",
+    "query-string": "^7.1.*"
+  }
+}
