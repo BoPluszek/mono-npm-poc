@@ -1,10 +1,11 @@
 import * as React from "react";
 import { IBaseProps } from "@205093/al-base-props";
+import { Variants } from "@205093/al-variants";
 import { Spinner as RbSpinner } from "react-bootstrap";
 
 export interface IProps extends IBaseProps {
   text?: string;
-  variant?: "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "light" | "dark";
+  variant?: Variants; //"primary" | "secondary" | "success" | "danger" | "warning" | "info" | "light" | "dark";
   size?: "sm" | undefined;
   inline?: boolean;
 }

@@ -1,0 +1,23 @@
+.entity-list {
+  &.table {
+    &-hover {
+      tbody {
+        tr {
+          td {
+            &:hover {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        &.no-result {
+          font-style: italic;
+        }
+      }
+    }
+  }
+}

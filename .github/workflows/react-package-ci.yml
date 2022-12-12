@@ -30,9 +30,6 @@ jobs:
           yarn
           yarn workspaces run build
 
-      - name: List of the GitHub Actions environment variables on Windows
-        run: env
-
       - name: Cache files for ghpages
         uses: actions/cache@v3
         with:
@@ -42,6 +39,7 @@ jobs:
 
   ghpages:
     needs: [build]
+    if: github.ref == 'refs/heads/main' # run this job only for the main branch
     runs-on: ubuntu-latest
     steps:
       - name: Restore cached files for ghpages
