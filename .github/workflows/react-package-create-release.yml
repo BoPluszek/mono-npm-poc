@@ -41,7 +41,7 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git branch release-${{inputs.component}}
+          git branch release/${{inputs.component}}/${{github.run_id}}
       
       - name: Build components
         run: |
@@ -69,7 +69,7 @@ jobs:
  
       - name: Prepare branch for PR
         run: |
-          git branch -m release-${{inputs.component}}-${{steps.read_version.outputs.value}}
+          git branch -m release/${{inputs.component}}/${{steps.read_version.outputs.value}}
           git push origin HEAD
 
       - name: Create PR
