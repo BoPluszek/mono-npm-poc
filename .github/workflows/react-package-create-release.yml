@@ -1,0 +1,49 @@
+name: react-package-create-release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'version'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+        - patch
+        - minor
+        - major
+        - premajor
+        - preminor
+        - prepatch
+        - prerelease
+      component:
+        description: 'component'
+        required: true
+        type: choice
+        options:
+        - al-spinner
+        - al-version-footer
+
+jobs:
+  build:
+    name: build and bump
+    runs-on: ubuntu-latest
+    # outputs:
+    #   module: ${{ env.MODULE }}
+    #   version: ${{ env.VERSION }}
+    steps:
+      - uses: actions/checkout@v3
+      - run: git branch ${{inputs.component}}
+      - run: |
+          cd al-react-components
+          yarn
+          yarn workspaces run build
+          cd ${{inputs.component}}
+          yarn version ${{inputs.version}} 
+      # - run: |
+      #     git config user.name github-actions
+      #     git config user.email github-actions@github.com
+      #     git add .
+      #     git commit -m "generated"
+      #     git push
+          

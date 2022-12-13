@@ -8,6 +8,10 @@
     "build-storybook": "build-storybook"
   },
   "workspaces": [
+    "al-variants",
+    "al-base-props",
+    "al-key-value-pair",
+    "al-spinner",
     "al-*"
   ],
   "devDependencies": {

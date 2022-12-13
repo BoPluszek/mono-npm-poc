@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - "al-react-components/*"
+    tags-ignore:
+    - '**' # Dont start a new build, just cause a new tag is created. //https://github.com/orgs/community/discussions/25048#discussioncomment-3246329
   workflow_dispatch:
 
 permissions:
