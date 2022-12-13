@@ -28,12 +28,12 @@ jobs:
   build:
     name: build and bump
     runs-on: ubuntu-latest
-    # outputs:
-    #   module: ${{ env.MODULE }}
-    #   version: ${{ env.VERSION }}
     steps:
+      - name: Output event for debug
+        run: echo "${{ toJSON(github.event) }}"
+
       - uses: actions/checkout@v3
-      
+
       - name: Configure git
         run: |
           git config user.name github-actions
@@ -43,8 +43,8 @@ jobs:
       - name: Build components
         run: |
           cd al-react-components
-          # yarn
-          # yarn workspaces run build
+          yarn
+          yarn workspaces run build
       
       - name: Bump version
         run: |
