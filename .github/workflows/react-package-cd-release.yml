@@ -1,18 +1,29 @@
-name: react-package-release
+name: react-package-cd-release
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - al-react-components/*/package.json
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - al-react-components/*/package.json
+  pull_request:
+    types: [closed]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Output event for debug
+      - name: Output event for debug1
         run: echo "${{ toJSON(github.event) }}"
+
+      - name: Output event for debug2
+        run: echo "${{ toJSON(github.event.pull_request) }}"
+
+      - name: Output event for debug3
+        run: echo "${{ toJSON(github.event.pull_request.merged) }}"
+
+      - name: Output event for debug4
+        run: echo "${{ toJSON(github.event.pull_request.head.ref) }}"
 
       - uses: actions/checkout@v3
 
