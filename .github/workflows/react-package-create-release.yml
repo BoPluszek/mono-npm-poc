@@ -46,8 +46,8 @@ jobs:
       - name: Build components
         run: |
           cd al-react-components
-          yarn
-          yarn workspaces run build
+          # yarn
+          # yarn workspaces run build
       
       - name: Bump version
         run: |
