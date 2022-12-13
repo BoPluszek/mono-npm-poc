@@ -34,33 +34,40 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - run: |
+      - name: Configure git
+        run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git branch release-${{inputs.component}}
       
-      - run: |
+      - name: Build components
+        run: |
           cd al-react-components
           # yarn
           # yarn workspaces run build
       
-      - run: |
+      - name: Bump version
+        run: |
           cd al-react-components/${{inputs.component}}
+          yarn config set version-tag-prefix "${{ inputs.component }}/v"
           yarn config set version-git-message "Release: React component ${{inputs.component}} v%s"
           yarn version --${{inputs.version}} 
       
-      - name: Read version
+      - name: Get version
         id: read_version
         uses:  ashley-taylor/read-json-property-action@v1.0
         with:
           path: al-react-components/${{inputs.component}}/package.json
           property: version    
 
-      - run: |
+      - name: Echo version
+        run: |
           echo detected version ${{steps.read_version.outputs.value}}
-
-      - run: |
+ 
+      - name: Prepare branch for PR
+        run: |
           git branch -m release-${{inputs.component}}-${{steps.read_version.outputs.value}}
+          git push origin HEAD
 
       - name: Create PR´
         #https://github.com/marketplace/actions/github-action-for-creating-pull-requests
