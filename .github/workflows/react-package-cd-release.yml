@@ -1,4 +1,4 @@
-name: react-package-release
+name: react-package-cd-release
 
 on:
   push:
@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - al-react-components/*/package.json
+  pull_request:
+    types: [closed]
 
 jobs:
   build:
