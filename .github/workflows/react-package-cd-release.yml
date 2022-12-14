@@ -83,9 +83,12 @@ jobs:
           default_bump: false
           custom_tag: ${{ needs.parsebranchname.outputs.module }}/v${{ needs.parsebranchname.outputs.version }}
           tag_prefix: ''
-      # - name: Release
-      #   uses: softprops/action-gh-release@v1
-      #   with: 
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name:  ${{ needs.parsebranchname.outputs.module }}/v${{ needs.parsebranchname.outputs.version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           # body_path: ${{ github.workspace }}-CHANGELOG.txt
           # note you'll typically need to create a personal access token
           # with permissions to create releases in the other repo
