@@ -1,6 +1,6 @@
 {
   "name": "@205093/al-spinner",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
