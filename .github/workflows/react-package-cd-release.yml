@@ -75,7 +75,7 @@ jobs:
           cd al-react-components
           yarn
           yarn workspaces run build
-          cd ${{ needs.parsetag.outputs.module }}
+          cd ${{ needs.parsebranchname.outputs.module }}
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
