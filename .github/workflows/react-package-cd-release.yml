@@ -75,13 +75,21 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-      - name: Push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          default_bump: false
-          custom_tag : ${{ needs.parsebranchname.outputs.module }}/v${{ needs.parsebranchname.outputs.version }}
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: false
+          CUSTOM_TAG: ${{ needs.parsebranchname.outputs.module }}/v${{ needs.parsebranchname.outputs.version }}
+
+      # - name: Push tag
+      #   id: tag_version
+      #   uses: mathieudutour/github-tag-action@v6.1
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     default_bump: false
+      #     custom_tag: ${{ needs.parsebranchname.outputs.module }}/v${{ needs.parsebranchname.outputs.version }}
+      #     tag_prefix: ''
       # - name: Release
       #   uses: softprops/action-gh-release@v1
       #   with: 
