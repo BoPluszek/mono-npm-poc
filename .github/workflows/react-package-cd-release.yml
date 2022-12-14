@@ -76,6 +76,7 @@ jobs:
           yarn
           yarn workspaces run build
           cd ${{ needs.parsebranchname.outputs.module }}
+          npm pack
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
