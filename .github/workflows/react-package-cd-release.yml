@@ -1,36 +1,82 @@
 name: react-package-cd-release
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - al-react-components/*/package.json
   pull_request:
     types: [closed]
 
 jobs:
-  build:
+  parsebranchname:
+    if: github.event.pull_request.merged == 'true'
+    name: Parse version and module from branchname
     runs-on: ubuntu-latest
+    outputs:
+      module: ${{ env.MODULE }}
+      version: ${{ env.VERSION }}
     steps:
-      - name: Output event for debug1
-        run: echo "${{ toJSON(github.event) }}"
+      - name: Split branchname into module and version
+        run: |
+          #TAG=${{ github.event.pull_request.head.ref }}
+          BRANCHNAME=release/al-spinner/0.0.11
+          MODULEANDVERSION=${BRANCHNAME#*/}
+          MODULE=${MODULEANDVERSION%%/*}
+          VERSION=${MODULEANDVERSION##*/}
+          echo module: $MODULE
+          echo version: $VERSION
+          echo MODULE=$MODULE >> $GITHUB_ENV
+          echo VERSION=$VERSION >> $GITHUB_ENV
 
-      - name: Output event for debug2
-        run: echo "${{ toJSON(github.event.pull_request) }}"
-
-      - name: Output event for debug3
-        run: echo "${{ toJSON(github.event.pull_request.merged) }}"
-
-      - name: Output event for debug4
-        run: echo "${{ toJSON(github.event.pull_request.head.ref) }}"
+  check:
+    needs: parsebranchname
+    name: Check if its a react module release
+    runs-on: ubuntu-latest
+    outputs:
+      isreactmodule: ${{ steps.check_files.outputs.files_exists }}
+    steps:
+      - run: |
+          echo module: ${{ needs.parsebranchname.outputs.module }}
+          echo version: ${{ needs.parsebranchname.outputs.version }}
 
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.release.target_commitish }}
 
+      - name: Check file existence
+        id: check_files
+        uses: andstor/file-existence-action@v2
+        with:
+          files: "al-react-components/${{ needs.parsebranchname.outputs.module }}/package.json"
+
+  buildrelease:
+    needs: [parsebranchname, check]
+    name: Build release
+    if: needs.check.outputs.isreactmodule == 'true'
+    runs-on: ubuntu-latest
+    steps:
       - run: |
-          cd al-react-components
-          yarn
-          yarn workspaces run build
+          echo module: ${{ needs.parsebranchname.outputs.module }}
+          echo version: ${{ needs.parsebranchname.outputs.version }}
+
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Output event for debug1
+  #       run: echo "${{ toJSON(github.event) }}"
+
+  #     - name: Output event for debug2
+  #       run: echo "${{ toJSON(github.event.pull_request) }}"
+
+  #     - name: Output event for debug3
+  #       run: echo "${{ toJSON(github.event.pull_request.merged) }}"
+
+  #     - name: Output event for debug4
+  #       run: echo "${{ toJSON(github.event.pull_request.head.ref) }}"
+
+  #     - uses: actions/checkout@v3
+
+  #     - run: |
+  #         cd al-react-components
+  #         yarn
+  #         yarn workspaces run build
 
 # jobs:
 #   parsetag:
