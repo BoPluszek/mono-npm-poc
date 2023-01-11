@@ -1,0 +1,85 @@
+name: react-package-pr-validation
+
+on:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - 'release/**'
+    paths:
+      - "al-react-components/*"
+
+jobs:
+  parsebranchname:
+    if: github.event.pull_request.merged
+    name: Parse version and module from branchname
+    runs-on: ubuntu-latest
+    outputs:
+      module: ${{ env.MODULE }}
+      version: ${{ env.VERSION }}
+    steps:
+      - name: Split branchname into module and version
+        run: |
+          BRANCHNAME=${{ github.event.pull_request.head.ref }}
+          # BRANCHNAME=release/al-spinner/0.0.11
+          MODULEANDVERSION=${BRANCHNAME#*/}
+          MODULE=${MODULEANDVERSION%%/*}
+          VERSION=${MODULEANDVERSION##*/}
+          echo module: $MODULE
+          echo version: $VERSION
+          echo MODULE=$MODULE >> $GITHUB_ENV
+          echo VERSION=$VERSION >> $GITHUB_ENV
+
+  check:
+    needs: parsebranchname
+    name: Check if its a react module release
+    runs-on: ubuntu-latest
+    outputs:
+      isreactmodule: ${{ steps.check_files.outputs.files_exists }}
+    steps:
+      - run: |
+          echo module: ${{ needs.parsebranchname.outputs.module }}
+          echo version: ${{ needs.parsebranchname.outputs.version }}
+
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.release.target_commitish }}
+
+      - name: Check file existence
+        id: check_files
+        uses: andstor/file-existence-action@v2
+        with:
+          files: "al-react-components/${{ needs.parsebranchname.outputs.module }}/package.json"
+
+  validate:
+    needs: [parsebranchname, check]
+    name: Validate 
+    if: needs.check.outputs.isreactmodule == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo module: ${{ needs.parsebranchname.outputs.module }}
+          echo version: ${{ needs.parsebranchname.outputs.version }}
+
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.release.target_commitish }}
+
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: "yarn"
+          cache-dependency-path: "al-react-components/yarn.lock"
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@205093'
+          always-auth: true
+
+      - name: build and dry publish
+        run: |
+          cd al-react-components/${{ needs.parsebranchname.outputs.module }}
+          yarn
+          yarn build
+          npm publish --dry-run
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
