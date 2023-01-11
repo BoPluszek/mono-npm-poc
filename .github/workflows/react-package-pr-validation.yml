@@ -2,8 +2,8 @@ name: react-package-pr-validation
 
 on:
   pull_request:
-    types:
-      - opened
+    # types:
+    #   - opened
     # branches:
     #   - 'release/**'
     # paths:
@@ -76,9 +76,10 @@ jobs:
 
       - name: build and dry publish
         run: |
-          cd al-react-components/${{ needs.parsebranchname.outputs.module }}
+          cd al-react-components
           yarn
-          yarn build
+          yarn workspaces run build
+          cd ${{ needs.parsebranchname.outputs.module }}
           npm publish --dry-run
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
