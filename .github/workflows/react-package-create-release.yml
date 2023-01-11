@@ -83,8 +83,8 @@ jobs:
           # template: .github/PULL_REQUEST_TEMPLATE.md
           # body: "**Automated pull request**"
           # reviewer: ${{github.event.sender.login}}
-          assignee: ${{github.event.sender.login}}
-          label: release
+          # assignee: ${{github.event.sender.login}}
+          # label: release
           # milestone: My milestone
           draft: false
           # old_string: "<!-- Add your description here -->"
