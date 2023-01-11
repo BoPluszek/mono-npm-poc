@@ -72,19 +72,27 @@ jobs:
           git branch -m release/${{inputs.component}}/${{steps.read_version.outputs.value}}
           git push origin HEAD
 
+        #https://github.com/peter-evans/create-pull-request/blob/main/docs/concepts-guidelines.md#authenticating-with-github-app-generated-tokens
+      - uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.PRCREATIONBOTAPPID }}
+          private_key: ${{ secrets.PRCREATIONBOTSECRET }}
+
       - name: Create PR
         #https://github.com/marketplace/actions/github-action-for-creating-pull-requests
         uses: devops-infra/action-pull-request@v0.5.3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ steps.generate-token.outputs.token }}
           # source_branch: release/${{inputs.component}}/${{steps.read_version.outputs.value}}
           target_branch: main
           title: "Release: React component ${{inputs.component}} v${{steps.read_version.outputs.value}}"
           # template: .github/PULL_REQUEST_TEMPLATE.md
           # body: "**Automated pull request**"
           # reviewer: ${{github.event.sender.login}}
-          # assignee: ${{github.event.sender.login}}
-          # label: release
+          assignee: ${{github.event.sender.login}}
+          label: release
           # milestone: My milestone
           draft: false
           # old_string: "<!-- Add your description here -->"
