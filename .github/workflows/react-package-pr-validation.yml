@@ -4,8 +4,8 @@ on:
   pull_request:
     types:
       - opened
-    branches:
-      - 'release/**'
+    # branches:
+    #   - 'release/**'
     paths:
       - "al-react-components/*"
 
