@@ -11,7 +11,6 @@ on:
 
 jobs:
   parsebranchname:
-    if: github.event.pull_request.merged
     name: Parse version and module from branchname
     runs-on: ubuntu-latest
     outputs:
