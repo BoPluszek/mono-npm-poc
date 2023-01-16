@@ -4,10 +4,10 @@ on:
   pull_request:
     types:
       - opened
-    branches:
-      - 'release/**'
-    paths:
-      - "al-react-components/*/package.json"
+   # branches:
+   #   - 'release/**'
+   # paths:
+   #   - "al-react-components/*/package.json"
 
 jobs:
   parsebranchname:
