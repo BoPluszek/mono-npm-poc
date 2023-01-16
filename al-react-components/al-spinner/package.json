@@ -2,7 +2,7 @@
   "name": "@205093/al-spinner",
   "version": "0.1.1",
   "module": "dist/esm/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/index.dd.ts",
   "scripts": {
     "build": "rimraf dist && rollup -c ../rollup.config.mjs --bundleConfigAsCjs",
     "storybook": "start-storybook -p 6006 -c ../.storybook"
