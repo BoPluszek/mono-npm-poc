@@ -4,7 +4,7 @@ import { Spinner } from ".";
 import "bootstrap/dist/css/bootstrap.css";
 
 export default {
-  title: "Spinner",
+  title: "Spinner.",
   component: Spinner
 };
 
